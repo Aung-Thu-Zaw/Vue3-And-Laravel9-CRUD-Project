@@ -2,17 +2,17 @@ import axios from "axios";
 import { ref } from "vue";
 
 const getPosts = () => {
-    const posts = ref([]);
+    const posts = ref({});
     const errorMessage = ref(null);
 
-    const fetchPost = async () => {
+    const fetchPost = async (page = 1) => {
         try {
-            let response = await axios.get("/api/posts");
+            let response = await axios.get("/api/posts?page=" + page);
             if (!response) {
                 throw new Error("Data response not found!");
             }
 
-            posts.value = response.data.data;
+            posts.value = response.data;
         } catch (error) {
             errorMessage.value = error.message;
         }
