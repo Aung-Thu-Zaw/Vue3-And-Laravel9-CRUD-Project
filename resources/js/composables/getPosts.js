@@ -12,7 +12,7 @@ const getPosts = () => {
                 throw new Error("Data response not found!");
             }
 
-            posts.value = response.data;
+            posts.value = response.data.data;
         } catch (error) {
             errorMessage.value = error.message;
         }
