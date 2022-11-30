@@ -21,11 +21,85 @@
           <table class="table table-bordered shadow-sm">
             <thead>
               <tr>
-                <th scope="col">No</th>
+                <th scope="col" @click="updateOrdering('id')">
+                  Id
+                  <i
+                    class="fa-sharp fa-solid fa-arrow-up"
+                    :class="{
+                      'text-primary':
+                        orderDirection === 'asc' && orderColumn === 'id',
+                      'visually-hidden':
+                        orderDirection !== '' &&
+                        orderDirection !== 'asc' &&
+                        orderColumn === 'id',
+                    }"
+                  ></i>
+                  <i
+                    class="fa-sharp fa-solid fa-arrow-down"
+                    :class="{
+                      'text-primary':
+                        orderDirection === 'desc' && orderColumn === 'id',
+                      'visually-hidden':
+                        orderDirection !== '' &&
+                        orderDirection !== 'desc' &&
+                        orderColumn === 'id',
+                    }"
+                  ></i>
+                </th>
                 <th scope="col">Category</th>
-                <th scope="col">Title</th>
+                <th scope="col" @click="updateOrdering('title')">
+                  Title
+                  <i
+                    class="fa-sharp fa-solid fa-arrow-up"
+                    :class="{
+                      'text-primary':
+                        orderDirection === 'asc' && orderColumn === 'title',
+                      'visually-hidden':
+                        orderDirection !== '' &&
+                        orderDirection !== 'asc' &&
+                        orderColumn === 'title',
+                    }"
+                  ></i>
+                  <i
+                    class="fa-sharp fa-solid fa-arrow-down"
+                    :class="{
+                      'text-primary':
+                        orderDirection === 'desc' && orderColumn === 'title',
+                      'visually-hidden':
+                        orderDirection !== '' &&
+                        orderDirection !== 'desc' &&
+                        orderColumn === 'title',
+                    }"
+                  ></i>
+                </th>
                 <th scope="col">Content</th>
-                <th scope="col">Created At</th>
+                <th scope="col" @click="updateOrdering('created_at')">
+                  Created At
+                  <i
+                    class="fa-sharp fa-solid fa-arrow-up"
+                    :class="{
+                      'text-primary':
+                        orderDirection === 'asc' &&
+                        orderColumn === 'created_at',
+                      'visually-hidden':
+                        orderDirection !== '' &&
+                        orderDirection !== 'asc' &&
+                        orderColumn === 'created_at',
+                    }"
+                  ></i>
+                  <i
+                    class="fa-sharp fa-solid fa-arrow-down"
+                    :class="{
+                      'text-primary':
+                        orderDirection === 'desc' &&
+                        orderColumn === 'created_at',
+                      'visually-hidden':
+                        orderDirection !== '' &&
+                        orderDirection !== 'desc' &&
+                        orderColumn === 'created_at',
+                    }"
+                  ></i>
+                </th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
@@ -63,6 +137,8 @@ import getCategories from "../composables/getCategories";
 import { Bootstrap5Pagination } from "laravel-vue-pagination";
 
 let selectedCategory = ref("");
+let orderColumn = ref("created_at");
+let orderDirection = ref("desc");
 const { posts, fetchPost } = getPosts();
 const { categories, fetchCategory } = getCategories();
 
@@ -74,7 +150,18 @@ onMounted(() => {
 watch(selectedCategory, (current, previous) => {
   fetchPost(1, current);
 });
+
+const updateOrdering = (column) => {
+  orderColumn.value = column;
+  orderDirection.value = orderDirection.value === "asc" ? "desc" : "asc";
+  fetchPost(1, selectedCategory.value, orderColumn.value, orderDirection.value);
+};
 </script>
 
-<style>
+<style scoped>
+.fa-solid {
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
 </style>

@@ -11,6 +11,8 @@
     {{--
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"> --}}
 
+    <script src="https://kit.fontawesome.com/18c274e5f3.js" crossorigin="anonymous"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 -->
