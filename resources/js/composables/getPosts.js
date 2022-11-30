@@ -5,9 +5,11 @@ const getPosts = () => {
     const posts = ref({});
     const errorMessage = ref(null);
 
-    const fetchPost = async (page = 1) => {
+    const fetchPost = async (page = 1, category = "") => {
         try {
-            let response = await axios.get("/api/posts?page=" + page);
+            let response = await axios.get(
+                "/api/posts?page=" + page + "&category=" + category
+            );
             if (!response) {
                 throw new Error("Data response not found!");
             }

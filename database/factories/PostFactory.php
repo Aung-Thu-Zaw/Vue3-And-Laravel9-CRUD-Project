@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,7 +18,9 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $categoryID=Category::pluck("id");
         return [
+            "category_id"=>$categoryID->random(),
             "title"=>$this->faker->text($maxNbChars=20),
             "content"=>$this->faker->paragraph(),
         ];
