@@ -9,9 +9,6 @@
               <div class="mb-3">
                 <label for="" class="mb-1">Title</label>
                 <input type="text" class="form-control" v-model="post.title" />
-                <!-- <p class="text-center text-danger" v-if="validationError.title">
-                  {{ validationError.title }}
-                </p> -->
                 <div class="text-danger text-center">
                   <div
                     v-for="message in validationError?.title"
@@ -29,12 +26,6 @@
                   class="form-control"
                   v-model="post.content"
                 ></textarea>
-                <!-- <p
-                  class="text-center text-danger"
-                  v-if="validationError.content"
-                >
-                  {{ validationError.content }}
-                </p> -->
                 <div class="text-danger text-center">
                   <div
                     v-for="message in validationError?.content"
@@ -60,12 +51,7 @@
                     {{ category.name }}
                   </option>
                 </select>
-                <!-- <p
-                  class="text-center text-danger"
-                  v-if="validationError.category"
-                >
-                  {{ validationError.category }}
-                </p> -->
+
                 <div class="text-danger text-center">
                   <div
                     v-for="message in validationError?.category_id"
@@ -76,7 +62,21 @@
                 </div>
               </div>
               <div class="mb-3 d-grid">
-                <button class="btn btn-secondary">Create</button>
+                <button
+                  :disabled="isLoading"
+                  class="btn btn-secondary"
+                  type="submit"
+                >
+                  <span v-if="isLoading">
+                    <span
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Loading...
+                  </span>
+                  <span v-else>Save</span>
+                </button>
               </div>
             </form>
           </div>
@@ -100,7 +100,7 @@ export default {
     });
 
     const { categories, fetchCategory } = getCategories();
-    const { addPost, validationError } = storePost();
+    const { addPost, validationError, isLoading } = storePost();
 
     onMounted(() => {
       fetchCategory();
@@ -111,6 +111,7 @@ export default {
       categories,
       addPost,
       validationError,
+      isLoading,
     };
   },
 };
