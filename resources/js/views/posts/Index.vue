@@ -1,23 +1,29 @@
 <template>
   <div>
-    <h1 class="text-center text-secondary pt-5 fw-bold">
-      CRUD Project With Vue3 And Laravel9
-    </h1>
     <div class="container p-5">
       <div class="row">
         <div class="col-12">
-          <div class="my-3 w-25">
-            <select class="form-select" v-model="selectedCategory">
-              <option selected>Filter By Category</option>
-              <option
-                v-for="category in categories"
-                :key="category.id"
-                :value="category.id"
-              >
-                {{ category.name }}
-              </option>
-            </select>
+          <div class="d-flex align-items-center">
+            <div class="my-3 w-25">
+              <select class="form-select" v-model="selectedCategory">
+                <option selected value="">Filter By Category</option>
+                <option
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="category.id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+
+            <!-- <div class="ms-auto">
+              <router-link :to="{ name: 'postCreate' }" class="btn btn-primary">
+                Create Post
+              </router-link>
+            </div> -->
           </div>
+
           <table class="table table-bordered shadow-sm">
             <thead>
               <tr>
@@ -111,8 +117,8 @@
                 <td>{{ post.content }}</td>
                 <td>{{ post.created_at }}</td>
                 <td>
-                  <a href="" class="btn btn-warning me-1"> Edit </a>
-                  <a href="" class="btn btn-danger ms-1"> Delete </a>
+                  <a class="btn btn-warning me-1"> Edit </a>
+                  <a class="btn btn-danger ms-1"> Delete </a>
                 </td>
               </tr>
             </tbody>
@@ -132,8 +138,8 @@
 
 <script setup>
 import { onMounted, ref, watch } from "@vue/runtime-core";
-import getPosts from "../composables/getPosts";
-import getCategories from "../composables/getCategories";
+import getPosts from "../../composables/getPosts";
+import getCategories from "../../composables/getCategories";
 import { Bootstrap5Pagination } from "laravel-vue-pagination";
 
 let selectedCategory = ref("");
@@ -158,7 +164,7 @@ const updateOrdering = (column) => {
 };
 </script>
 
-<style scoped>
+  <style scoped>
 .fa-solid {
   font-size: 12px;
   font-weight: bold;
