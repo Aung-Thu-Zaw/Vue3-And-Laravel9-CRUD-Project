@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -48,5 +47,11 @@ class PostController extends Controller
         $post->update($request->validated());
 
         return new PostResource($post);
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return response()->noContent();
     }
 }

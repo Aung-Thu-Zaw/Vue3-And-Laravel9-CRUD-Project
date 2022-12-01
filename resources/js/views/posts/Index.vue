@@ -123,7 +123,13 @@
                   >
                     Edit
                   </router-link>
-                  <!-- <router-link :to="{name:post.edit}" class="btn btn-danger ms-1"> Delete </router-link> -->
+                  <a
+                    href="#"
+                    class="btn btn-danger ms-1"
+                    @click="destroyPost(post.id)"
+                  >
+                    Delete
+                  </a>
                 </td>
               </tr>
             </tbody>
@@ -142,14 +148,19 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "@vue/runtime-core";
+import { inject, onMounted, ref, watch } from "@vue/runtime-core";
 import getPosts from "../../composables/getPosts";
 import getCategories from "../../composables/getCategories";
 import { Bootstrap5Pagination } from "laravel-vue-pagination";
+import { useRouter } from "vue-router";
+import axios from "axios";
 
+const router = useRouter();
+const swal = inject("$swal");
 let selectedCategory = ref("");
 let orderColumn = ref("created_at");
 let orderDirection = ref("desc");
+
 const { posts, fetchPost } = getPosts();
 const { categories, fetchCategory } = getCategories();
 
@@ -167,6 +178,39 @@ const updateOrdering = (column) => {
   orderDirection.value = orderDirection.value === "asc" ? "desc" : "asc";
   fetchPost(1, selectedCategory.value, orderColumn.value, orderDirection.value);
 };
+
+const destroyPost = async (id) => {
+  swal({
+    title: "Are you sure want to delete?",
+    icon: "warning",
+    text: "You will not be able to revert this action!",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    confirmButtonColor: "#ef4444",
+    timer: 20000,
+    timerProgressBar: true,
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios
+        .delete("/api/posts/" + id)
+        .then((response) => {
+          fetchPost();
+          router.push("/");
+          swal({
+            icon: "success",
+            title: "Post deleted successfully",
+          });
+        })
+        .catch((err) => {
+          swal({
+            icon: "error",
+            title: "Something went wrong!",
+          });
+        });
+    }
+  });
+};
 </script>
 
   <style scoped>
@@ -176,3 +220,4 @@ const updateOrdering = (column) => {
   cursor: pointer;
 }
 </style>
+
