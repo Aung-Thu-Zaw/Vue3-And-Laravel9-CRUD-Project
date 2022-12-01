@@ -3,9 +3,17 @@
     <div class="container p-5">
       <div class="row">
         <div class="col-12">
-          <div class="d-flex align-items-center">
-            <div class="my-3 w-25">
-              <select class="form-select" v-model="selectedCategory">
+          <div>
+            <input
+              type="text"
+              class="form-control"
+              v-model="search_global"
+              placeholder="Search..."
+            />
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="my-3 w-20">
+              <select class="form-select" v-model="search_category">
                 <option selected value="">Filter By Category</option>
                 <option
                   v-for="category in categories"
@@ -16,12 +24,30 @@
                 </option>
               </select>
             </div>
-
-            <!-- <div class="ms-auto">
-              <router-link :to="{ name: 'postCreate' }" class="btn btn-primary">
-                Create Post
-              </router-link>
-            </div> -->
+            <div class="my-3 w-20">
+              <input
+                type="text"
+                class="form-control"
+                v-model="search_id"
+                placeholder="Search By Id"
+              />
+            </div>
+            <div class="my-3 w-20">
+              <input
+                type="text"
+                class="form-control"
+                v-model="search_title"
+                placeholder="Search By Title"
+              />
+            </div>
+            <div class="my-3 w-20">
+              <input
+                type="text"
+                class="form-control"
+                v-model="search_content"
+                placeholder="Search By Content"
+              />
+            </div>
           </div>
 
           <table class="table table-bordered shadow-sm">
@@ -157,7 +183,11 @@ import axios from "axios";
 
 const router = useRouter();
 const swal = inject("$swal");
-let selectedCategory = ref("");
+let search_category = ref("");
+let search_id = ref("");
+let search_title = ref("");
+let search_content = ref("");
+let search_global = ref("");
 let orderColumn = ref("created_at");
 let orderDirection = ref("desc");
 
@@ -169,15 +199,71 @@ onMounted(() => {
   fetchCategory();
 });
 
-watch(selectedCategory, (current, previous) => {
-  fetchPost(1, current);
-});
-
 const updateOrdering = (column) => {
   orderColumn.value = column;
   orderDirection.value = orderDirection.value === "asc" ? "desc" : "asc";
-  fetchPost(1, selectedCategory.value, orderColumn.value, orderDirection.value);
+  fetchPost(
+    1,
+    search_category.value,
+    search_id.value,
+    search_title.value,
+    search_content.value,
+    search_global.value,
+    orderColumn.value,
+    orderDirection.value
+  );
 };
+
+watch(search_id, (current, previous) => {
+  fetchPost(
+    1,
+    search_category.value,
+    current,
+    search_title.value,
+    search_content.value,
+    search_global.value
+  );
+});
+watch(search_category, (current, previous) => {
+  fetchPost(
+    1,
+    current,
+    search_id.value,
+    search_title.value,
+    search_content.value,
+    search_global.value
+  );
+});
+watch(search_title, (current, previous) => {
+  fetchPost(
+    1,
+    search_category.value,
+    search_id.value,
+    current,
+    search_content.value,
+    search_global.value
+  );
+});
+watch(search_content, (current, previous) => {
+  fetchPost(
+    1,
+    search_category.value,
+    search_id.value,
+    search_title.value,
+    current,
+    search_global.value
+  );
+});
+watch(search_global, (current, previous) => {
+  fetchPost(
+    1,
+    search_category.value,
+    search_id.value,
+    search_title.value,
+    search_content.value,
+    current
+  );
+});
 
 const destroyPost = async (id) => {
   swal({

@@ -20,20 +20,39 @@ class PostController extends Controller
         if (!in_array($orderDirection, ["asc","desc"])) {
             $orderDirection="desc";
         }
+
+
+
         $posts=Post::with("category")
-        ->when(request("category"), function ($query) {
-            $query->where("category_id", request("category"));
+        ->when(request("search_category"), function ($query) {
+            $query->where("category_id", request("search_category"));
         })
+        ->when(request("search_id"), function ($query) {
+            $query->where("id", request("search_id"));
+        })
+        ->when(request("search_title"), function ($query) {
+            $query->where("title", "LIKE", "%".request('search_title')."%");
+        })
+        ->when(request("search_content"), function ($query) {
+            $query->where("content", "LIKE", "%".request('search_content')."%");
+        })
+
+        ->when(request("search_global"), function ($query, $global) {
+            $query->where(function ($query) use ($global) {
+                $query->where("id", $global)
+                        ->orWhere("title", "LIKE", "%".$global."%")
+                        ->orWhere("content", "%".$global."%");
+            });
+        })
+
         ->orderBy($orderColumn, $orderDirection)
         ->paginate(8);
-        // return Post::all();
         return PostResource::collection($posts);
     }
 
     public function store(StorePostRequest $request)
     {
         $post=Post::create($request->validated());
-        // sleep(2);
         return new PostResource($post);
     }
 
