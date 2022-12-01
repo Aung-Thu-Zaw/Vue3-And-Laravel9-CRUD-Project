@@ -73,7 +73,7 @@
                       role="status"
                       aria-hidden="true"
                     ></span>
-                    Loading...
+                    Processing...
                   </span>
                   <span v-else>Save</span>
                 </button>
@@ -97,6 +97,7 @@ export default {
       title: "",
       content: "",
       category_id: "",
+      thumbnail: "",
     });
 
     const { categories, fetchCategory } = getCategories();

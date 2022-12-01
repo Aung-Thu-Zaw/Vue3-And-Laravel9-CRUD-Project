@@ -1,14 +1,11 @@
 <template>
   <div>
     <h1 class="text-center text-secondary pt-5 fw-bold text-capitalize">
-      <!-- CRUD Project With Vue3 And Laravel9 -->
-      <!-- Create Post Here -->
       {{ currentPageTitle }}
     </h1>
-
     <nav class="mt-5 d-flex align-items-center justify-content-center">
       <router-link to="/" class="mx-2">Home</router-link> |
-      <router-link :to="{ name: 'post.create' }" class="mx-2"
+      <router-link :to="{ name: 'posts.create' }" class="mx-2"
         >Create</router-link
       >
     </nav>

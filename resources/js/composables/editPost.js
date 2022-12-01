@@ -2,23 +2,20 @@ import axios from "axios";
 import { ref, inject } from "vue";
 import { useRouter } from "vue-router";
 
-const storePost = () => {
+const editPost = () => {
     const validationError = ref(null);
     const router = useRouter();
     const isLoading = ref(false);
     const swal = inject("$swal");
-
-    const addPost = async (post) => {
+    const updatePost = async (post) => {
         if (isLoading.value) return;
         isLoading.value = true;
         validationError.value = {};
-
         try {
-            let response = await axios.post("/api/posts", post);
+            let response = await axios.put("/api/posts/" + post.id, post);
             if (!response) {
                 throw new Error("Data response not found!");
             }
-
             router.push("/");
             swal({
                 icon: "success",
@@ -32,8 +29,7 @@ const storePost = () => {
             isLoading.value = false;
         }
     };
-
-    return { validationError, addPost, isLoading };
+    return { validationError, updatePost, isLoading };
 };
 
-export default storePost;
+export default editPost;

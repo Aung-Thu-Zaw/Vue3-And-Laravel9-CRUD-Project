@@ -117,8 +117,13 @@
                 <td>{{ post.content }}</td>
                 <td>{{ post.created_at }}</td>
                 <td>
-                  <a class="btn btn-warning me-1"> Edit </a>
-                  <a class="btn btn-danger ms-1"> Delete </a>
+                  <router-link
+                    :to="{ name: 'posts.edit', params: { id: post.id } }"
+                    class="btn btn-warning me-1"
+                  >
+                    Edit
+                  </router-link>
+                  <!-- <router-link :to="{name:post.edit}" class="btn btn-danger ms-1"> Delete </router-link> -->
                 </td>
               </tr>
             </tbody>
