@@ -5,7 +5,7 @@
         <div class="col-2"></div>
         <div class="col-8">
           <div class="card p-3 shadow-sm">
-            <form @submit.prevent="addPost(post)">
+            <form @submit.prevent="addPost(post)" enctype="multipart/form-data">
               <div class="mb-3">
                 <label for="" class="mb-1">Title</label>
                 <input type="text" class="form-control" v-model="post.title" />
@@ -94,10 +94,9 @@ import storePost from "../../composables/storePost";
 export default {
   setup() {
     const post = reactive({
+      category_id: "",
       title: "",
       content: "",
-      category_id: "",
-      thumbnail: "",
     });
 
     const { categories, fetchCategory } = getCategories();

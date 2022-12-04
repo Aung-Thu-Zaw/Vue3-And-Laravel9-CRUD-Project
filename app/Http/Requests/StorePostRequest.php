@@ -23,11 +23,17 @@ class StorePostRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules=[
             "title"=>"required",
             "content"=>"required",
             "category_id"=>["required","exists:categories,id"]
         ];
+
+        if ($this->hasFile("photo")) {
+            $rules["photo"]=["required","image","mimes:png,jpg,gif,jpeg"];
+        }
+
+        return $rules;
     }
 
     public function attributes()

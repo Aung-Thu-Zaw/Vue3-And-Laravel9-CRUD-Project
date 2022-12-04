@@ -104,6 +104,7 @@
                     }"
                   ></i>
                 </th>
+                <th scope="col">Photo</th>
                 <th scope="col">Content</th>
                 <th scope="col" @click="updateOrdering('created_at')">
                   Created At
@@ -140,6 +141,16 @@
                 <th scope="row">{{ post.id }}</th>
                 <td>{{ post.category }}</td>
                 <td>{{ post.title }}</td>
+                <td v-if="!post.photo">
+                  <img
+                    src="https://www.contentviewspro.com/wp-content/uploads/2017/07/default_image.png"
+                    alt=""
+                    style="width: 100px"
+                  />
+                </td>
+                <td v-else>
+                  <img :src="post.photo" alt="" style="width: 100px" />
+                </td>
                 <td>{{ post.content }}</td>
                 <td>{{ post.created_at }}</td>
                 <td>

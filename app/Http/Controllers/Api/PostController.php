@@ -53,6 +53,19 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $post=Post::create($request->validated());
+
+
+        if ($request->hasFile("photo")) {
+            $originalPhotoName= $request->file("photo")->getClientOriginalName();
+
+            $time=time();
+            $uploadPhoto= $request->file("photo")->storeAs("/photo", $time.$originalPhotoName);
+
+            $post->update([
+                "photo"=>$uploadPhoto
+            ]);
+        }
+
         return new PostResource($post);
     }
 

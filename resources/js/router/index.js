@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
+// import Authenticated from "../layouts/Authenticated.vue";
+// import Guest from "../layouts/Guest.vue";
 import Index from "../views/posts/Index.vue";
 import Create from "../views/posts/Create.vue";
 import Edit from "../views/posts/Edit.vue";
+// import Login from "../components/Login.vue";
 
 const routes = [
     {
@@ -23,6 +26,12 @@ const routes = [
         props: true,
         meta: { title: "edit posts here" },
     },
+    // {
+    //     path: "/",
+    //     name: "posts.index",
+    //     component: Guest,
+    //     meta: { title: "crud project with vue3 and laravel9" },
+    // },
 ];
 
 const router = createRouter({

@@ -14,7 +14,7 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data= [
             "id"=>$this->id,
             "category_id"=>$this->category_id,
             "category"=>$this->category->name,
@@ -22,6 +22,12 @@ class PostResource extends JsonResource
             "content"=>substr($this->content, 0, 50),
             "created_at"=>$this->created_at->toDateString()
         ];
+
+        if ($this->photo) {
+            $data["photo"]=env("APP_URL")."storage/".$this->photo;
+        }
+
+        return $data;
         return parent::toArray($request);
     }
 }

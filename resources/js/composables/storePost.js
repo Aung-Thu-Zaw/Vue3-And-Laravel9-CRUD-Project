@@ -18,7 +18,6 @@ const storePost = () => {
             if (!response) {
                 throw new Error("Data response not found!");
             }
-
             router.push("/");
             swal({
                 icon: "success",
